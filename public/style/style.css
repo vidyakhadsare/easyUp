@@ -1,0 +1,98 @@
+.header-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.glyphicon {
+    font-size: large;
+    cursor: pointer;
+}
+
+.upload-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.upload-form .form-group {
+    text-transform: capitalize;
+}
+
+.upload-form .btn-upload {
+    text-transform: uppercase;
+    width : 20%;
+    background : none;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    float: right;
+}
+
+.upload-overlay-black {
+  background: rgba(0, 0, 0, 0);
+}
+
+.upload-overlay-white {
+  background: rgba(255, 255, 255, 255);
+}
+
+.upload-dialog {
+  margin:auto;
+  margin-top: 100px;
+  height: 500px;
+  width: 400px;
+  background: whitesmoke;
+}
+
+.upload-form .form-group {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-form .upload-files {
+  overflow-y: auto;
+  height: 270px;
+}
+
+.upload-form ul ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.upload-form ul h5 {
+    padding-right: 15px;
+    display: inline-block;
+}
+
+.upload-form .upload-footer {
+
+}
+
+.upload-overlay {
+  background: black;
+}
+
+.lable-dialog {
+  height: 10px;
+}
+
+.span-filename {
+    padding-right: 15px;
+    padding-left: 10px;
+}
+
+.span-filetype {
+    padding-right: 55px;
+    padding-left: 27px;
+}
+
+.span-heading {
+    font-size: 17px;
+    font-weight: bold;
+}
