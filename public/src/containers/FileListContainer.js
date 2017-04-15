@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   fetchFiles,
-  deleteFiles
+  deleteFiles,
+  filesSelected,
+  filesUnSelected,
+  downloadFiles
 } from '../actions/FileActions';
 
 import {
@@ -18,14 +21,16 @@ function mapStateToProps(state) {
     message: state.files.message,
     showModal: state.files.showModal,
     filesDeleted: state.files.filesDeleted,
-    modalDisplayDone: state.files.modalDisplayDone
+    modalDisplayDone: state.files.modalDisplayDone,
+    fileSelectionDone: state.files.fileSelectionDone
   };
 }
 
 //Map dispatch actions and bind creators to props
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { fetchFiles, deleteFiles, openUploadDialog, closeUploadDialog },
+    { fetchFiles, deleteFiles, openUploadDialog,
+      closeUploadDialog, downloadFiles, filesSelected, filesUnSelected},
     dispatch
   );
 }

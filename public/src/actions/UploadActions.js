@@ -18,7 +18,6 @@ export function uploadFiles(files) {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if (request.readyState == 4 && request.status == 200) {
-        //Action -  upload files in progress
         dispatch(uploadDone())
       }
     };

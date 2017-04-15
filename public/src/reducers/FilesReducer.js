@@ -2,7 +2,9 @@
 import {
   FETCH_FILE_LIST,
   FILES_FETCHED,
-  FILES_DELETED
+  FILES_DELETED,
+  FILES_SELECTED,
+  FILES_UNSELECTED
 } from '../actions/FileActions';
 
 import {
@@ -38,6 +40,10 @@ export default function FilesReducer(state = INITIAL_STATE, action) {
       return { ...state, uploadProgress: true};
     case UPLOAD_FILE_SELECTED:
       return {...state, fileListSelected: true};
+    case FILES_SELECTED:
+      return {...state, fileSelectionDone: false};
+    case FILES_UNSELECTED:
+      return {...state, fileSelectionDone: true};
     default:
       return state;
   }

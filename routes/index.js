@@ -7,11 +7,13 @@ var fs = require('fs');
 var util = require('util');
 var _ = require('lodash');
 var FileList = require('../database/FileListOperations');
+var http = require('http');
+var path = require('path');
 // var JSON = require('json');
 
 var router = express.Router();
-var upload = utils.getMulter();
-
+var upload = utils.getMulterUpload();
+//var download = utils.getMulterDownload();
 //*********************  Node js routing ***************************/
 //File upload route
 router.post('/files/upload', function (req, res) {
@@ -65,6 +67,44 @@ router.delete('/files/:id',function(req,res){
     res.status(200).send('delete scuccessful');
   }
 });
+
+router.post('/files/downloadFiles',function(req,res){
+    //console.log('file list recieved:' + req.body.filesList);
+    let filesToDownload = req.body.filesList;
+    var destination = path.join(__dirname, '..', constants.DOWNLOAD_FILE_DIR);
+    filesToDownload.forEach(function(file){
+
+      download(file.path,destination+"/"+file.fileName,function(err){
+      //download(file.path,destination,function(err){
+        if(err){
+          console.log('error in download');
+        }
+      });
+    });
+});
+
+var download = function(src, dest, cb) {
+  var cbCalled = false;
+  var rd = fs.createReadStream(src);
+  rd.on("error", function(err) {
+    done(err);
+  });
+  var wr = fs.createWriteStream(dest);
+  wr.on("error", function(err) {
+    done(err);
+  });
+  wr.on("close", function(ex) {
+    done();
+  });
+  rd.pipe(wr);
+
+  function done(err) {
+    if (!cbCalled) {
+      cb(err);
+      cbCalled = true;
+    }
+  }
+};
 
 //Batch Delete route
 router.post('/files/batch',function(req,res){

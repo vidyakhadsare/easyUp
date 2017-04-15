@@ -1,5 +1,6 @@
 import axios from 'axios';
 const ROOT_URL = 'http://localhost:3000/';
+import _ from 'lodash';
 
 //Get file list from node server
 export function fetchFiles() {
@@ -21,7 +22,7 @@ export function deleteFiles(fileIds) {
     //console.log("Fpath***" + filePaths[0]);
     //console.log("Actual path: " + {${ROOT_URL}files/${filePaths[0]});
     request = axios.delete(`${ROOT_URL}files/${fileIds[0]}`);
-    
+
   } else {
     request = axios.post(`${ROOT_URL}files/batch`, {
       action: 'delete',
@@ -32,6 +33,20 @@ export function deleteFiles(fileIds) {
   return (dispatch) => {
     return request.then(() => {
       dispatch(filesDeleted());
+    });
+  };
+}
+
+export function downloadFiles(files){
+
+  let request = axios.post(`${ROOT_URL}files/downloadFiles`, {
+    filesList: files
+  });
+
+//Dispatch actions to provide data to the front end
+  return (dispatch) => {
+    return request.then((response) => {
+      dispatch(filesDownload(response));
     });
   };
 }
@@ -58,7 +73,31 @@ function filesDeleted() {
   }
 }
 
+//Action -  file deleted
+export function filesSelected() {
+  return {
+    type: FILES_SELECTED
+  }
+}
+
+//Action -  file deleted
+export function filesUnSelected() {
+  return {
+    type: FILES_UNSELECTED
+  }
+}
+
+//Action -  file deleted
+export function filesDownload() {
+  return {
+    type: FILES_DOWNLOAD
+  }
+}
+
 //Module Export definitions
 export const FETCH_FILE_LIST = 'fetchFileList';
 export const FILES_FETCHED = 'filesFetched';
 export const FILES_DELETED = 'filesDeleted';
+export const FILES_SELECTED = 'filesSelected';
+export const FILES_UNSELECTED = 'filesUnSelected';
+export const FILES_DOWNLOAD = 'filesDownload';

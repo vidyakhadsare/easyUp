@@ -57,30 +57,48 @@ const theme = {
 
 var searchFiles = [];
 // Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
+// const getSuggestions = value => {
+//   const inputValue = value.trim().toLowerCase();
+//   const inputLength = inputValue.length;
+//
+//   /*return inputLength === 0 ? [] : searchFiles.filter(file =>
+//     file.fileName.toLowerCase().slice(0, inputLength) === inputValue
+//   );*/
+//
+//   return inputLength === 0 ? [] : searchFiles.filter(file => {
+//       return file.fileName.toLowerCase().slice(0, inputLength) === inputValue
+//     }
+//   );
+// };
+function escapeRegexCharacters(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
-  /*return inputLength === 0 ? [] : searchFiles.filter(file =>
-    file.fileName.toLowerCase().slice(0, inputLength) === inputValue
-  );*/
+function getSuggestions(value) {
+  const escapedValue = escapeRegexCharacters(value.trim());
 
-  return inputLength === 0 ? [] : searchFiles.filter(file =>
-    file.fileName.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
+  if (escapedValue === '') {
+    return [];
+  }
+
+  const regex = new RegExp('^' + escapedValue, 'i');
+
+  return searchFiles.filter(file => regex.test(file.fileName));
+}
 
 // When suggestion is clicked, Autosuggest needs to populate the input element
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
+function getSuggestionValue(suggestion) {
+  return suggestion.fileName;
+}
 
 // Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.fileName}
-  </div>
-);
+function renderSuggestion(suggestion) {
+  return (
+    <span>{suggestion.fileName}</span>
+  );
+}
 
 class AutoSuggest extends React.Component {
   constructor() {
@@ -98,6 +116,9 @@ class AutoSuggest extends React.Component {
   }
 
   onChange = (event, { newValue }) => {
+    if (!newValue) {
+      this.props.clearSearch();
+    }
     this.setState({
       value: newValue
     });
@@ -139,8 +160,8 @@ class AutoSuggest extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
-        files={this.props.files}
         theme={theme}
+        onSuggestionSelected={this.props.onSuggestionSelected}
       />
     );
   }

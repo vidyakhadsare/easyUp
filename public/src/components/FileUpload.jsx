@@ -51,7 +51,9 @@ class FileUpload extends Component {
 //Function call to upload files
   uploadFiles = () => {
     if(this.files.length>0){
+      console.log('Entered upload');
       this.props.uploadFiles(this.files);
+      console.log("File to upload " , this.files , "individual " , this.files[0]);
       this.props.closeUploadDialog();
     }
     else {

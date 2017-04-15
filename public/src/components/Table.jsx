@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
+import AutoSuggest from './AutoSuggest';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import styled from 'styled-components';
+
 
 //Define custom options for table
 const tableOptions = {
@@ -9,40 +12,65 @@ const tableOptions = {
   hideSizePerPage: true
 };
 
-const selectRowProp = {
-  mode: 'checkbox'
-};
-
 //Allow user to type before search
 const searchDelayTime = 0;
-
 class Table extends Component {
-
   render() {
     let columns = this.getColumns();
+
+    const selectRowProp = {
+      mode: 'checkbox',
+      onSelect: this.props.onRowSelect,
+      clickToSelect: true,
+      bgColor: "rgb(78, 89, 101)",
+      Color: "rgb(ff, ff, ff)"
+    };
 
     //Define custom options for table
     const customizationOptions = {
       data: this.props.data,
       pagination: this.props.pagination || false,
-      // search: this.props.search || false,
+      search: this.props.search || false,
       deleteRow: this.props.deleteRow || false,
-      selectRow: this.props.deleteRow ? selectRowProp : null
+      //selectRow: this.props.deleteRow ? selectRowProp : null
+      selectRow: selectRowProp
       // searchPlaceholder: 'Search by Data File Name'
     };
 
     let options = _.defaults({}, {
-      // noDataText: this.props.noDataText,
-      // clearSearch: this.props.search,
+      noDataText: this.props.noDataText,
+      clearSearch: this.props.search,
       // searchDelayTime: this.props.search ? searchDelayTime : 0,
-      onDeleteRow: this.props.onDeleteRow
+      onDeleteRow: this.props.onDeleteRow,
+      searchPanel: this.renderCustomSearchPanel
       // defaultSearch: this.props.searchTerm
     }, tableOptions);
+    var self = this.props.trClass;
+    //  headerContainerClass='Name'
+    //containerStyle={ { border: '#FFBB73 2.5px solid' } }
 
     return (
-      <BootstrapTable {...customizationOptions} options={options}>
+      <BootstrapTable {...customizationOptions}
+        options={options}
+        tableStyle={ { 'width': '1352px', 'height':'803px' } }
+        bodyStyle={ { border: 'green 1px solid' } }>
+        >
         {columns}
       </BootstrapTable>
+    );
+  }
+
+  onSearch(props, event, obj) {
+    console.log(props, obj.suggestion,obj.suggestionValue);
+    props.search(obj.suggestionValue);
+  }
+
+  renderCustomSearchPanel = (props) => {
+    console.log(props);
+    return (
+      <div>
+          <AutoSuggest files={this.props.data} clearSearch={props.clearBtnClick} onSuggestionSelected={this.onSearch.bind(this, props)}/>
+      </div>
     );
   }
 
@@ -52,7 +80,9 @@ class Table extends Component {
         dataField: col.field,
         isKey: col.isKey,
         dataSort: col.sort,
-        width: col.width
+        width: col.width,
+        columnClassName: col.columnClassName,
+        className:col.className
       };
       return (
         <TableHeaderColumn key={col.title} {...headerOptions}>
@@ -72,7 +102,9 @@ Table.propTypes = {
   pagination: React.PropTypes.bool,
   search: React.PropTypes.bool,
   deleteRow: React.PropTypes.bool,
-  onDeleteRow: React.PropTypes.func
+  onDeleteRow: React.PropTypes.func,
+  onRowSelect: React.PropTypes.func,
+  trClass: React.PropTypes.string.isRequired
 };
 
 //Module Export definitions

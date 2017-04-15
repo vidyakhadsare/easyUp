@@ -1,21 +1,44 @@
 import React, {Component} from 'react';
 import Table from './Table';
 import ModalDialog from './ModalDialog';
-import AutoSuggest from './AutoSuggest';
 import FileUploadContainer from '../containers/FileUploadContainer';
 import _ from 'lodash';
 
 const noDataText = 'No files found.';
 
-//Define Column names of the FileList Table
-const columns = [
-  {title: 'File Name', isKey: true, sort: true, field: 'fileName'},
-  {title: 'Type', sort: true, field: 'fileType'},
-  {title: 'Size(MB)', sort: true, field: 'size'},
-  {title: 'Updated Time', sort: true, field: 'updatedTime'}
-];
+function columnClassNameFormat(fieldValue, row, rowIdx, colIdx) {
+// fieldValue is column value
+// row is whole row object
+// rowIdx is index of row
+// colIdx is index of column
+return 'try';
+
+}
 
 class FileList extends Component {
+
+  //Define Column names of the FileList Table
+  constructor(props) {
+    super(props);
+    this.selectedFiles = [];
+    this.trClass = '';
+  }
+
+  /*columnClassNameFormat(fieldValue, row, rowIdx, colIdx) {
+  // fieldValue is column value
+  // row is whole row object
+  // rowIdx is index of row
+  // colIdx is index of column
+  //return rowIdx % 2 === 0 ? 'td-column-function-even-example' : 'td-column-function-odd-example';
+
+  var self = this;
+  _.each(this.props.files, function (fileInfo) {
+    if (_.includes(row, fileInfo.fileName)) {
+      //self.selectedFiles.push(fileInfo);
+      return 'Rectangle';
+    }
+  });
+}*/
 
   //Fetch file list once application loading is done
   componentDidMount() {
@@ -37,8 +60,48 @@ class FileList extends Component {
         fileIds.push(fileInfo._id);
       }
     });
-    //console.log("File path UI" + filePaths);
     this.props.deleteFiles(fileIds);
+  }
+
+  onSelectRow = (row, isSelected) => {
+    // add to selectedRow array if selected
+        if (isSelected) {
+            this.addSelectedFile(row);
+            this.props.filesSelected();
+            this.trClass = 'trClass-selected';
+            console.log('row ' + {row});
+        } else {
+            // delete from selectedRow array if unselected
+            this.removeSelectedFile(row);
+            this.props.filesUnSelected();
+            this.trClass = 'trClass-unselected';
+        }
+  }
+
+  addSelectedFile(row){
+    var self = this;
+    _.each(this.props.files, function (fileInfo) {
+      if (_.includes(row, fileInfo.fileName)) {
+        self.selectedFiles.push(fileInfo);
+      }
+    });
+  }
+
+  removeSelectedFile(row){
+    var self = this;
+    var index;
+    _.each(this.selectedFiles, function (fileInfo) {
+      if (_.includes(row, fileInfo.fileName)) {
+        index = self.selectedFiles.indexOf(fileInfo);
+      }
+    });
+    if(index){
+      self.selectedFiles.splice(index, 1);
+    }
+  }
+
+  downloadFiles = () => {
+    this.props.downloadFiles(this.selectedFiles);
   }
 
   //Show elements inside modal when it opens
@@ -51,14 +114,21 @@ class FileList extends Component {
     this.props.closeUploadDialog();
   }
 
-  onSearch = (event, suggestion, suggestionValue) => {
-    console.log(suggestion, suggestionValue);
-  }
-
   //Render FileList table on the screen
   render() {
+    var trClassName = this.trClass;
+    console.log('class value:' + trClassName);
+    //trClassName = "'" + trClassName + "'";
+//'fileNameField'
+    trClassName = '';
+    var columns = [
+      {title: 'FILE NAME', isKey: true, sort: true, field: 'fileName',
+        className:'Name', columnClassName:'fileNameField'},
+      {title: 'TYPE', sort: true, field: 'fileType', columnClassName:'CSV', className:'Name'},
+      {title: 'SIZE(MB)', sort: true, field: 'size', columnClassName:'-KB', className:'Name'},
+      {title: 'UPLOAD DATE', sort: true, field: 'updatedTime', columnClassName:'layer', className:'Name'}
+    ];
     let files = this.props.files;
-
     const numOfFiles = files.length;
     const message = this.props.message ? (<p>{this.props.message}</p>) : '';
 
@@ -66,18 +136,16 @@ class FileList extends Component {
     if (this.props.showModal) {
       modalContent = (<FileUploadContainer/>);
     }
-
     return (
       <div>
         {message}
         <div className="header-row">
-          <p>There are {numOfFiles} data files.</p>
+          <p className='There-are-5-data-fil'>There are {numOfFiles} data files.</p>
           <div onClick={this.onModalOpen}>
             <span className="glyphicon glyphicon-plus-sign"></span>
           </div>
         </div>
-
-        <AutoSuggest files={files} onSuggestionSelected={this.onSearch}/>
+        <span className="glyphicon glyphicon-download-alt" aria-hidden="false" onClick={this.downloadFiles}></span>
         <Table columns={columns}
                data={files}
                noDataText={noDataText}
@@ -85,6 +153,8 @@ class FileList extends Component {
                search={true}
                deleteRow={true}
                onDeleteRow={this.onDeleteRow}
+               onRowSelect={this.onSelectRow}
+               trClass={this.trClass}
         />
         <ModalDialog show={this.props.showModal} onModalClose={this.onModalClose}>
           {modalContent}
