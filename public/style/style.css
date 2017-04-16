@@ -20,15 +20,19 @@
     text-transform: capitalize;
 }
 
-.upload-form .btn-upload {
-    text-transform: uppercase;
-    width : 20%;
-    background : none;
-    font-size: 15px;
-    font-weight: bold;
-    border: none;
-    float: right;
+.DONE {
+  width: 20%;
+  height: 17px;
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #2979ff;
+  float:right;
+  border: none;
+  background : none;
 }
+
 
 .upload-overlay-black {
   background: rgba(0, 0, 0, 0);
@@ -222,4 +226,66 @@
 
 .flex-item {
     margin: 5px;
+}
+
+.ADD-NEW-DATA-FILES {
+  width: 270px;
+  height: 22px;
+  font-family: Lato;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+  color: #4f5965;
+  padding-top: 15px;
+}
+
+.RevenueLastYear {
+  width: 288px;
+  height: 16px;
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.14;
+  color: #4f5965;
+}
+
+.File-Name {
+  width: 62px;
+  height: 16px;
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 1.14;
+  color: #4f5965;
+  padding-right: 15px;
+  padding-left: 10px;
+}
+
+.Large-Dialogue-Box-Background {
+  width: 450px;
+  height: 444px;
+  background-color: #ffffff;
+  margin:auto;
+  margin-top: 100px;
+  text-align: left;
+}
+
+.Type {
+  width: 31px;
+  height: 16px;
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 1.14;
+  color: #4f5965;
+  padding-right: 55px;
+  padding-left: 25px;
+}
+
+.CSVadded {
+  width: 80px;
+  height: 16px;
+  font-family: Lato;
+  font-size: 14px;
+  font-weight:bold;
+  line-height: 1.14;
+  color: #4f5965;
+  text-transform: uppercase;
 }

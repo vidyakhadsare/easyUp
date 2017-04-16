@@ -6,7 +6,6 @@ const theme = {
     position: 'relative'
   },
   input: {
-    //width: '1305px',
     width: '100%',
     height: '49px',
     borderTopLeftRadius: '2px',

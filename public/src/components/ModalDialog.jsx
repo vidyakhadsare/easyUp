@@ -13,6 +13,12 @@ const customStyles = {
   }
 };
 
+/*<div>
+  <div className="pull-right" onClick={this.onClose}>
+    <span className="glyphicon glyphicon-remove-sign"></span>
+  </div>
+</div>*/
+
 class ModalDialog extends Component {
   //Render dialog
   render() {
@@ -22,11 +28,7 @@ class ModalDialog extends Component {
           className="upload-dialog"
           isOpen={this.props.show}
           contentLabel="React Modal">
-          <div>
-            <div className="pull-right" onClick={this.onClose}>
-              <span className="glyphicon glyphicon-remove-sign"></span>
-            </div>
-          </div>
+
           {this.props.children}
         </ReactModal>
       </div>

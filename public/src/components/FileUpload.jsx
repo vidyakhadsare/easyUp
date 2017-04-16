@@ -8,6 +8,12 @@ class FileUpload extends Component {
     this.files = [];
   }
 
+  //<span className="span-filename">File Name</span><strong> {fileInfo.name}</strong>
+  //<span className="span-filetype RevenueLastYear">Type</span>
+  //<span className="span-heading ADD-NEW-DATA-FILES">ADD NEW DATA FILE(S)</span>
+
+
+
 //Render File Upload dialog components -
 //File List, button to select the file, DONE button, Close button
   render() {
@@ -17,7 +23,7 @@ class FileUpload extends Component {
     return (
       <form className="upload-form">
         <div className="form-group form-title">
-          <span className="span-heading">ADD NEW DATA FILE(S)</span>
+          <span className="ADD-NEW-DATA-FILES">ADD NEW DATA FILE(S)</span>
         </div>
         <div className="form-group">
           <label className="lable-dialog" >
@@ -39,7 +45,7 @@ class FileUpload extends Component {
         <div className="upload-footer">
           <button type="button"
                   disabled={disabled}
-                  className="upload-form btn-upload"
+                  className="DONE"
                   onClick={this.uploadFiles}>
                   DONE
           </button>
@@ -51,9 +57,7 @@ class FileUpload extends Component {
 //Function call to upload files
   uploadFiles = () => {
     if(this.files.length>0){
-      console.log('Entered upload');
       this.props.uploadFiles(this.files);
-      console.log("File to upload " , this.files , "individual " , this.files[0]);
       this.props.closeUploadDialog();
     }
     else {
@@ -90,11 +94,11 @@ class FileUpload extends Component {
           <ul key={fileInfo.name} ref='listItem' value={fileInfo}>
             <li>
               <span className="glyphicon glyphicon-minus-sign" aria-hidden="false" onClick={self.onFileRemove.bind(self, fileInfo)}></span>
-              <span className="span-filename">File Name</span><strong> {fileInfo.name}</strong>
+              <span className="File-Name">File Name</span><span className="RevenueLastYear"> {fileInfo.name}</span>
             </li>
             <li>
-              <span className="span-filetype">Type</span>
-              <strong>{fileInfo.type}</strong>
+              <span className="Type">Type</span>
+              <span className="CSVadded">{fileInfo.type}</span>
             </li>
           </ul>
         );
