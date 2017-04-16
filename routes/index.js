@@ -71,6 +71,7 @@ router.delete('/files/:id',function(req,res){
 router.post('/files/downloadFiles',function(req,res){
     //console.log('file list recieved:' + req.body.filesList);
     let filesToDownload = req.body.filesList;
+    var error;
     var destination = path.join(__dirname, '..', constants.DOWNLOAD_FILE_DIR);
     filesToDownload.forEach(function(file){
 
@@ -78,9 +79,16 @@ router.post('/files/downloadFiles',function(req,res){
       //download(file.path,destination,function(err){
         if(err){
           console.log('error in download');
+          error = err;
         }
       });
     });
+    if(error){
+      res.send(error);
+    }
+    else {
+      res.status(200).send('download scuccessful');
+    }
 });
 
 var download = function(src, dest, cb) {

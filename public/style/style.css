@@ -178,7 +178,7 @@
 }
 
 .There-are-5-data-fil {
-  width: 191px;
+  width: 220px;
   height: 24px;
   font-family: Lato;
   font-size: 20px;
@@ -222,6 +222,7 @@
     display: -webkit-flex;
     display: flex;
     justify-content:flex-end;
+    width : 1352px;
 }
 
 .flex-item {
@@ -288,4 +289,32 @@
   line-height: 1.14;
   color: #4f5965;
   text-transform: uppercase;
+}
+
+.react-bs-container-body table tbody tr.selectedRow td {
+  color: white !important;
+}
+
+.Download---FontAwesome {
+  width: 23px;
+  height: 24px;
+  object-fit: contain;
+  font-family: FontAwesome;
+  font-size: 24px;
+  color: #4f5965;
+}
+
+.Delete---FontAwesome {
+  width: 19px;
+  height: 24px;
+  object-fit: contain;
+  font-family: FontAwesome;
+  font-size: 24px;
+  color: #4f5965;
+}
+
+.Add-Button {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }

@@ -8,7 +8,7 @@ import styled from 'styled-components';
 //Define custom options for table
 const tableOptions = {
   page: 1,
-  sizePerPage: 15,
+  sizePerPage: 19,
   hideSizePerPage: true
 };
 
@@ -23,7 +23,6 @@ class Table extends Component {
       onSelect: this.props.onRowSelect,
       clickToSelect: true,
       bgColor: "rgb(78, 89, 101)",
-      fontColor: "rgb(255, 255, 255)"
     };
 
     //Define custom options for table
@@ -32,9 +31,7 @@ class Table extends Component {
       pagination: this.props.pagination || false,
       search: this.props.search || false,
       deleteRow: this.props.deleteRow || false,
-      //selectRow: this.props.deleteRow ? selectRowProp : null
       selectRow: selectRowProp
-      // searchPlaceholder: 'Search by Data File Name'
     };
 
     let options = _.defaults({}, {
@@ -48,7 +45,7 @@ class Table extends Component {
     return (
       <BootstrapTable {...customizationOptions}
         options={options}
-        tableStyle={ { 'width': '1352px', 'height':'803px' } }
+        tableStyle={ { 'width': '1352px', 'height':'787px' } }
         >
         {columns}
       </BootstrapTable>

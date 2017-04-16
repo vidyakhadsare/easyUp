@@ -8,12 +8,6 @@ class FileUpload extends Component {
     this.files = [];
   }
 
-  //<span className="span-filename">File Name</span><strong> {fileInfo.name}</strong>
-  //<span className="span-filetype RevenueLastYear">Type</span>
-  //<span className="span-heading ADD-NEW-DATA-FILES">ADD NEW DATA FILE(S)</span>
-
-
-
 //Render File Upload dialog components -
 //File List, button to select the file, DONE button, Close button
   render() {
@@ -27,7 +21,7 @@ class FileUpload extends Component {
         </div>
         <div className="form-group">
           <label className="lable-dialog" >
-          <span className="glyphicon glyphicon-plus-sign" aria-hidden="false"></span>
+          <img src="../../images/add-button.svg" className=".Add-Button"></img>
           <input type="file"
                  name="easyFiles"
                  multiple

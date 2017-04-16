@@ -27,44 +27,46 @@ class FileList extends Component {
       console.log('fected after delete');
       this.selectedFiles = [];
     }
+    if(this.props.filesDownloadDone === true){
+      alert('Files are downloaded successfully in downloaded_Files folder!');
+    }
   }
 
-//Collect row ids to be deleted
+  //Collect row ids to be deleted
   /*onDeleteRow = (rows) => {
-    let fileIds = [];
-    _.each(this.props.files, function (fileInfo) {
-      if (_.includes(rows, fileInfo.fileName)) {
-        fileIds.push(fileInfo._id);
-      }
-    });
-    this.props.deleteFiles(fileIds);
+  let fileIds = [];
+  _.each(this.props.files, function (fileInfo) {
+  if (_.includes(rows, fileInfo.fileName)) {
+  fileIds.push(fileInfo._id);
+  }
+  });
+  this.props.deleteFiles(fileIds);
   }*/
 
   onDeleteRow = () => {
     var fileList = this.selectedFiles;
     let fileIds = [];
-    /*for(var i=0; i < fileList.length; i++){
-      fileIds.push[fileList[i]._id];
-      console.log('List obj' + fileList[i]);
-    }*/
 
     _.each(this.selectedFiles, function (fileInfo) {
-        fileIds.push(fileInfo._id);
+      fileIds.push(fileInfo._id);
     });
 
     this.props.deleteFiles(fileIds);
   }
 
-  onSelectRow = (row, isSelected) => {
+  onSelectRow = (row, isSelected, e) => {
     // add to selectedRow array if selected
-        if (isSelected) {
-            this.addSelectedFile(row);
-            this.props.filesSelected();
-        } else {
-            // delete from selectedRow array if unselected
-            this.removeSelectedFile(row);
-            this.props.filesUnSelected();
-        }
+    let parentRow = e.target.parentElement.parentElement;
+    if (isSelected) {
+      parentRow.classList.add('selectedRow');
+      this.addSelectedFile(row);
+      this.props.filesSelected();
+    } else {
+      parentRow.classList.remove('selectedRow');
+      // delete from selectedRow array if unselected
+      this.removeSelectedFile(row);
+      this.props.filesUnSelected();
+    }
   }
 
   addSelectedFile(row){
@@ -90,7 +92,12 @@ class FileList extends Component {
   }
 
   downloadFiles = () => {
-    this.props.downloadFiles(this.selectedFiles);
+    if(this.selectedFiles.length > 0){
+      this.props.downloadFiles(this.selectedFiles);
+    }
+    else {
+        alert('Please select files first!');
+    }
   }
 
   //Show elements inside modal when it opens
@@ -106,61 +113,62 @@ class FileList extends Component {
   //Render FileList table on the screen
   render() {
 
+
     var trClassName = this.trClass;
     trClassName = '';
     var columns = [
-  {title: 'FILE NAME', isKey: true, sort: true, field: 'fileName',
-    className:'Name', columnClassName:'fileNameField'},
-  {title: 'TYPE', sort: true, field: 'fileType', columnClassName:'CSV', className:'Name'},
-  {title: 'SIZE(MB)', sort: true, field: 'size', columnClassName:'-KB', className:'Name'},
-  {title: 'UPLOAD DATE', sort: true, field: 'updatedTime', columnClassName:'layer', className:'Name'}
-  ];
-    let files = this.props.files;
-    const numOfFiles = files.length;
-    const message = this.props.message ? (<p>{this.props.message}</p>) : '';
+      {title: 'FILE NAME', isKey: true, sort: true, field: 'fileName',
+        className:'Name', columnClassName:'fileNameField'},
+        {title: 'TYPE', sort: true, field: 'fileType', columnClassName:'CSV', className:'Name'},
+        {title: 'SIZE(MB)', sort: true, field: 'size', columnClassName:'-KB', className:'Name'},
+        {title: 'UPLOAD DATE', sort: true, field: 'updatedTime', columnClassName:'layer', className:'Name'}
+      ];
 
-    let modalContent = '';
-    if (this.props.showModal) {
-      modalContent = (<FileUploadContainer/>);
-    }
-    return (
-      <div>
-        {message}
-        <p className='There-are-5-data-fil' >There are {numOfFiles} data files.</p>
-        <div className="header-row flex-container" style={{ 'width' : '1352px'}}>
-          <span className="glyphicon glyphicon-trash flex-item" aria-hidden="false" onClick={this.onDeleteRow}></span>
-          <span className="glyphicon glyphicon-plus-sign flex-item" style ={{   'width' : '23px',
-              'height' : '24px' }} onClick={this.onModalOpen}></span>
-          <span className="glyphicon glyphicon-download-alt flex-item" aria-hidden="false" onClick={this.downloadFiles}></span>
+      let files = this.props.files;
+      const numOfFiles = files.length;
+      const message = this.props.message ? (<p>{this.props.message}</p>) : '';
+
+      let modalContent = '';
+      if (this.props.showModal) {
+        modalContent = (<FileUploadContainer/>);
+      }
+      return (
+        <div>
+          {message}
+          <p className='There-are-5-data-fil' >There are {numOfFiles} data files.</p>
+          <div className="header-row flex-container">
+            <img src="../../images/add-button.svg" className=".Add-Button flex-item " onClick={this.onModalOpen}></img>
+            <img src="../../images/download-font-awesome.png" className="Download---FontAwesome flex-item"  onClick={this.downloadFiles}></img>
+            <img src="../../images/delete-font-awesome.png" className="Delete---FontAwesome flex-item" onClick={this.onDeleteRow}></img>
+          </div>
+          <Table columns={columns}
+            data={files}
+            noDataText={noDataText}
+            pagination={true}
+            search={true}
+            deleteRow={false}
+            onDeleteRow={this.onDeleteRow}
+            onRowSelect={this.onSelectRow}
+            trClass={this.trClass}
+            />
+          <ModalDialog show={this.props.showModal} onModalClose={this.onModalClose}>
+            {modalContent}
+          </ModalDialog>
         </div>
-        <Table columns={columns}
-               data={files}
-               noDataText={noDataText}
-               pagination={true}
-               search={true}
-               deleteRow={false}
-               onDeleteRow={this.onDeleteRow}
-               onRowSelect={this.onSelectRow}
-               trClass={this.trClass}
-        />
-        <ModalDialog show={this.props.showModal} onModalClose={this.onModalClose}>
-          {modalContent}
-        </ModalDialog>
-      </div>
-    );
+      );
+    }
   }
-}
 
-//Manadate variables definition
-FileList.propTypes = {
-  fetchFiles: React.PropTypes.func.isRequired,
-  deleteFiles: React.PropTypes.func.isRequired,
-  openUploadDialog: React.PropTypes.func.isRequired,
-  files: React.PropTypes.array.isRequired,
-  message: React.PropTypes.string,
-  filesDeleted: React.PropTypes.bool,
-  showModal: React.PropTypes.bool
-};
+  //Manadate variables definition
+  FileList.propTypes = {
+    fetchFiles: React.PropTypes.func.isRequired,
+    deleteFiles: React.PropTypes.func.isRequired,
+    openUploadDialog: React.PropTypes.func.isRequired,
+    files: React.PropTypes.array.isRequired,
+    message: React.PropTypes.string,
+    filesDeleted: React.PropTypes.bool,
+    showModal: React.PropTypes.bool,
+  };
 
-//Module Export definitions
-export default FileList;
+  //Module Export definitions
+  export default FileList;

@@ -45,8 +45,9 @@ export function downloadFiles(files){
 
 //Dispatch actions to provide data to the front end
   return (dispatch) => {
-    return request.then((response) => {
-      dispatch(filesDownload(response));
+    console.log('dispatching done');
+    return request.then(() => {
+      dispatch(filesDownload());
     });
   };
 }
@@ -87,7 +88,7 @@ export function filesUnSelected() {
   }
 }
 
-//Action -  file deleted
+//Action -  file download
 export function filesDownload() {
   return {
     type: FILES_DOWNLOAD

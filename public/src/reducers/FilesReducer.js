@@ -4,7 +4,8 @@ import {
   FILES_FETCHED,
   FILES_DELETED,
   FILES_SELECTED,
-  FILES_UNSELECTED
+  FILES_UNSELECTED,
+  FILES_DOWNLOAD
 } from '../actions/FileActions';
 
 import {
@@ -25,11 +26,12 @@ const INITIAL_STATE = {files: [], showModal: false, filesDeleted: false, message
 export default function FilesReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_FILE_LIST:
-      return { ...state, message: '', filesDeleted: false, showModal: false};
+      return { ...state, message: '', filesDeleted: false, showModal: false, filesDownloadDone:false};
     case FILES_FETCHED:
-      return { ...state, files: action.payload, message: null, filesDeleted: false, showModal: false, modalDisplayDone:false  };
+      return { ...state, files: action.payload, message: null, filesDeleted: false,
+              showModal: false, modalDisplayDone:false, filesDownloadDone:false };
     case FILES_DELETED:
-      return { ...state, filesDeleted: true, showModal: false};
+      return { ...state, filesDeleted: true, showModal: false, filesDownloadDone:false};
     case OPEN_UPLOAD_DIALOG:
       return { ...state, filesDeleted: false, showModal: true, modalDisplayDone:false};
     case CLOSE_UPLOAD_DIALOG:
@@ -41,9 +43,11 @@ export default function FilesReducer(state = INITIAL_STATE, action) {
     case UPLOAD_FILE_SELECTED:
       return {...state, fileListSelected: true};
     case FILES_SELECTED:
-      return {...state, fileSelectionDone: false};
+      return {...state, fileSelectionDone: false,filesDownloadDone:false};
     case FILES_UNSELECTED:
-      return {...state, fileSelectionDone: true};
+      return {...state, fileSelectionDone: true, filesDownloadDone:false};
+    case FILES_DOWNLOAD:
+      return {...state, filesDownloadDone: true};
     default:
       return state;
   }

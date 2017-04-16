@@ -22,7 +22,8 @@ function mapStateToProps(state) {
     showModal: state.files.showModal,
     filesDeleted: state.files.filesDeleted,
     modalDisplayDone: state.files.modalDisplayDone,
-    fileSelectionDone: state.files.fileSelectionDone
+    fileSelectionDone: state.files.fileSelectionDone,
+    filesDownloadDone: state.files.filesDownloadDone
   };
 }
 
