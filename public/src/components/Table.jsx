@@ -45,18 +45,18 @@ class Table extends Component {
     return (
       <BootstrapTable {...customizationOptions}
         options={options}
-        tableStyle={ { 'width': '1352px', 'height':'787px' } }
-        >
+        tableStyle={ { 'width': '1352px', 'height':'787px' } }>
         {columns}
       </BootstrapTable>
     );
   }
 
+  //populate suggestions when search is clicked
   onSearch(props, event, obj) {
-    console.log(props, obj.suggestion,obj.suggestionValue);
     props.search(obj.suggestionValue);
   }
 
+  //Render search panel
   renderCustomSearchPanel = (props) => {
     console.log(props);
     return (

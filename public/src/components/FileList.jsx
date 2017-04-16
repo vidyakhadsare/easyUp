@@ -14,7 +14,7 @@ class FileList extends Component {
     this.selectedFiles = [];
     this.trClass = '';
   }
-
+  
   //Fetch file list once application loading is done
   componentDidMount() {
     this.props.fetchFiles();
@@ -33,27 +33,16 @@ class FileList extends Component {
   }
 
   //Collect row ids to be deleted
-  /*onDeleteRow = (rows) => {
-  let fileIds = [];
-  _.each(this.props.files, function (fileInfo) {
-  if (_.includes(rows, fileInfo.fileName)) {
-  fileIds.push(fileInfo._id);
-  }
-  });
-  this.props.deleteFiles(fileIds);
-  }*/
-
   onDeleteRow = () => {
     var fileList = this.selectedFiles;
     let fileIds = [];
-
     _.each(this.selectedFiles, function (fileInfo) {
       fileIds.push(fileInfo._id);
     });
-
     this.props.deleteFiles(fileIds);
   }
 
+  //create selected file list on row selection
   onSelectRow = (row, isSelected, e) => {
     // add to selectedRow array if selected
     let parentRow = e.target.parentElement.parentElement;
@@ -69,6 +58,7 @@ class FileList extends Component {
     }
   }
 
+  //Add file to selected file list on row selection
   addSelectedFile(row){
     var self = this;
     _.each(this.props.files, function (fileInfo) {
@@ -78,6 +68,7 @@ class FileList extends Component {
     });
   }
 
+  //Remove file from selected file list on row selection
   removeSelectedFile(row){
     var self = this;
     var index;
@@ -91,12 +82,13 @@ class FileList extends Component {
     }
   }
 
+  //Download Files
   downloadFiles = () => {
     if(this.selectedFiles.length > 0){
       this.props.downloadFiles(this.selectedFiles);
     }
     else {
-        alert('Please select files first!');
+      alert('Please select files first!');
     }
   }
 

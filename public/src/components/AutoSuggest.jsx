@@ -107,6 +107,7 @@ function renderSuggestion(suggestion) {
 
 const imgPath =  '../../images/search.svg';
 
+// Specify input component style
 const renderInputComponent = inputProps => (
   <div className="inputContainer">
     <img className="icon" src= {imgPath} style = {{ 'width': '20px',
