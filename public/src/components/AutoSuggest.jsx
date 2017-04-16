@@ -1,21 +1,27 @@
 import Autosuggest from 'react-autosuggest';
 import React, {Component} from 'react';
+var path = require('path');
 const theme = {
   container: {
     position: 'relative'
   },
   input: {
-    width: 240,
-    height: 30,
-    padding: '10px 20px',
-    fontFamily: 'Helvetica, sans-serif',
-    fontWeight: 300,
-    fontSize: 16,
-    border: '1px solid #aaa',
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    //width: '1305px',
+    width: '100%',
+    height: '49px',
+    borderTopLeftRadius: '2px',
+    borderTopRightRadius: '2px',
+    borderBottomLeftRadius: '2px',
+    borderBottomRightRadius: '2px',
+    border: 'solid 0.5px #4f5965',
+    fontfamily: 'Lato',
+    fontsize: '14px',
+    lineheight: '1.14px',
+    textalign: 'right',
+    color: '#4f5965',
+    display: 'inline-block',
+    float: 'left',
+    paddingLeft: '35px'
   },
   inputFocused: {
     outline: 'none'
@@ -100,6 +106,16 @@ function renderSuggestion(suggestion) {
   );
 }
 
+const imgPath =  '../../images/search.svg';
+
+const renderInputComponent = inputProps => (
+  <div className="inputContainer">
+    <img className="icon" src= {imgPath} style = {{ 'width': '20px',
+    'height' : '21px', 'padding-top' : '5px' }}/>
+    <input {...inputProps} />
+  </div>
+);
+
 class AutoSuggest extends React.Component {
   constructor() {
     super();
@@ -147,10 +163,11 @@ class AutoSuggest extends React.Component {
       searchFiles[i] = fileList[i];
     }
     const inputProps = {
-      placeholder: 'Type a programming language',
+      placeholder: '  Search by Data File Name',
       value,
       onChange: this.onChange
     };
+
 
     return (
       <Autosuggest
@@ -162,6 +179,7 @@ class AutoSuggest extends React.Component {
         inputProps={inputProps}
         theme={theme}
         onSuggestionSelected={this.props.onSuggestionSelected}
+        renderInputComponent={renderInputComponent}
       />
     );
   }

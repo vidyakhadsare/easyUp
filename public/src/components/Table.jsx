@@ -23,7 +23,7 @@ class Table extends Component {
       onSelect: this.props.onRowSelect,
       clickToSelect: true,
       bgColor: "rgb(78, 89, 101)",
-      Color: "rgb(ff, ff, ff)"
+      fontColor: "rgb(255, 255, 255)"
     };
 
     //Define custom options for table
@@ -40,20 +40,15 @@ class Table extends Component {
     let options = _.defaults({}, {
       noDataText: this.props.noDataText,
       clearSearch: this.props.search,
-      // searchDelayTime: this.props.search ? searchDelayTime : 0,
       onDeleteRow: this.props.onDeleteRow,
       searchPanel: this.renderCustomSearchPanel
-      // defaultSearch: this.props.searchTerm
     }, tableOptions);
-    var self = this.props.trClass;
-    //  headerContainerClass='Name'
-    //containerStyle={ { border: '#FFBB73 2.5px solid' } }
+
 
     return (
       <BootstrapTable {...customizationOptions}
         options={options}
         tableStyle={ { 'width': '1352px', 'height':'803px' } }
-        bodyStyle={ { border: 'green 1px solid' } }>
         >
         {columns}
       </BootstrapTable>
@@ -69,7 +64,9 @@ class Table extends Component {
     console.log(props);
     return (
       <div>
-          <AutoSuggest files={this.props.data} clearSearch={props.clearBtnClick} onSuggestionSelected={this.onSearch.bind(this, props)}/>
+          <AutoSuggest files={this.props.data} clearSearch={props.clearBtnClick}
+            onSuggestionSelected={this.onSearch.bind(this, props)}
+            />
       </div>
     );
   }

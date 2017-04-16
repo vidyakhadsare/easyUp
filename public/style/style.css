@@ -70,10 +70,6 @@
     display: inline-block;
 }
 
-.upload-form .upload-footer {
-
-}
-
 .upload-overlay {
   background: black;
 }
@@ -103,15 +99,30 @@
   background-color: #4f5965;
 }
 
-.trClass-unselected{
-  background-color: #4f5965;
+.inputContainer {
+  position: relative;
 }
 
-.trClass-selected{
-  background-color: #ffffff;
+.icon {
+  position: absolute;
+  top: 13px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
 }
 
 .Name {
+  width: 296px;
+  height: 16px;
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 1.14;
+  letter-spacing: 1px;
+  text-align: left;
+  color: #4f5965;
+}
+
+.NameKeyColumn {
   width: 296px;
   height: 16px;
   font-family: Lato;
@@ -169,11 +180,46 @@
   font-size: 20px;
   font-weight: bold;
   color: #4f5965;
+  padding-top: 20px;
 }
 
-.Rectangle-558 {
-  width: 1305px;
-  height: 49px;
-  border-radius: 2px;
-  border: solid 0.5px #4f5965;
+.Oval-6 {
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border: solid 1.2px #4f5965;
+}
+
+.Search {
+  width: 45px;
+  height: 16px;
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 1.14;
+  letter-spacing: 0.5px;
+  color: #4f5965;
+}
+
+.Oval-74 {
+  width: 32px;
+  height: 32px;
+  border: solid 1.4px #4f5965;
+}
+.Download---FontAwesome {
+  width: 23px;
+  height: 24px;
+  object-fit: contain;
+  font-family: FontAwesome;
+  font-size: 24px;
+  color: #4f5965;
+}
+
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    justify-content:flex-end;
+}
+
+.flex-item {
+    margin: 5px;
 }

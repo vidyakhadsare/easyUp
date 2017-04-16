@@ -6,15 +6,6 @@ import _ from 'lodash';
 
 const noDataText = 'No files found.';
 
-function columnClassNameFormat(fieldValue, row, rowIdx, colIdx) {
-// fieldValue is column value
-// row is whole row object
-// rowIdx is index of row
-// colIdx is index of column
-return 'try';
-
-}
-
 class FileList extends Component {
 
   //Define Column names of the FileList Table
@@ -23,22 +14,6 @@ class FileList extends Component {
     this.selectedFiles = [];
     this.trClass = '';
   }
-
-  /*columnClassNameFormat(fieldValue, row, rowIdx, colIdx) {
-  // fieldValue is column value
-  // row is whole row object
-  // rowIdx is index of row
-  // colIdx is index of column
-  //return rowIdx % 2 === 0 ? 'td-column-function-even-example' : 'td-column-function-odd-example';
-
-  var self = this;
-  _.each(this.props.files, function (fileInfo) {
-    if (_.includes(row, fileInfo.fileName)) {
-      //self.selectedFiles.push(fileInfo);
-      return 'Rectangle';
-    }
-  });
-}*/
 
   //Fetch file list once application loading is done
   componentDidMount() {
@@ -49,17 +24,34 @@ class FileList extends Component {
   componentDidUpdate() {
     if (this.props.filesDeleted || this.props.modalDisplayDone) {
       this.props.fetchFiles();
+      console.log('fected after delete');
+      this.selectedFiles = [];
     }
   }
 
 //Collect row ids to be deleted
-  onDeleteRow = (rows) => {
+  /*onDeleteRow = (rows) => {
     let fileIds = [];
     _.each(this.props.files, function (fileInfo) {
       if (_.includes(rows, fileInfo.fileName)) {
         fileIds.push(fileInfo._id);
       }
     });
+    this.props.deleteFiles(fileIds);
+  }*/
+
+  onDeleteRow = () => {
+    var fileList = this.selectedFiles;
+    let fileIds = [];
+    /*for(var i=0; i < fileList.length; i++){
+      fileIds.push[fileList[i]._id];
+      console.log('List obj' + fileList[i]);
+    }*/
+
+    _.each(this.selectedFiles, function (fileInfo) {
+        fileIds.push(fileInfo._id);
+    });
+
     this.props.deleteFiles(fileIds);
   }
 
@@ -68,13 +60,10 @@ class FileList extends Component {
         if (isSelected) {
             this.addSelectedFile(row);
             this.props.filesSelected();
-            this.trClass = 'trClass-selected';
-            console.log('row ' + {row});
         } else {
             // delete from selectedRow array if unselected
             this.removeSelectedFile(row);
             this.props.filesUnSelected();
-            this.trClass = 'trClass-unselected';
         }
   }
 
@@ -116,18 +105,16 @@ class FileList extends Component {
 
   //Render FileList table on the screen
   render() {
+
     var trClassName = this.trClass;
-    console.log('class value:' + trClassName);
-    //trClassName = "'" + trClassName + "'";
-//'fileNameField'
     trClassName = '';
     var columns = [
-      {title: 'FILE NAME', isKey: true, sort: true, field: 'fileName',
-        className:'Name', columnClassName:'fileNameField'},
-      {title: 'TYPE', sort: true, field: 'fileType', columnClassName:'CSV', className:'Name'},
-      {title: 'SIZE(MB)', sort: true, field: 'size', columnClassName:'-KB', className:'Name'},
-      {title: 'UPLOAD DATE', sort: true, field: 'updatedTime', columnClassName:'layer', className:'Name'}
-    ];
+  {title: 'FILE NAME', isKey: true, sort: true, field: 'fileName',
+    className:'Name', columnClassName:'fileNameField'},
+  {title: 'TYPE', sort: true, field: 'fileType', columnClassName:'CSV', className:'Name'},
+  {title: 'SIZE(MB)', sort: true, field: 'size', columnClassName:'-KB', className:'Name'},
+  {title: 'UPLOAD DATE', sort: true, field: 'updatedTime', columnClassName:'layer', className:'Name'}
+  ];
     let files = this.props.files;
     const numOfFiles = files.length;
     const message = this.props.message ? (<p>{this.props.message}</p>) : '';
@@ -139,19 +126,19 @@ class FileList extends Component {
     return (
       <div>
         {message}
-        <div className="header-row">
-          <p className='There-are-5-data-fil'>There are {numOfFiles} data files.</p>
-          <div onClick={this.onModalOpen}>
-            <span className="glyphicon glyphicon-plus-sign"></span>
-          </div>
+        <p className='There-are-5-data-fil' >There are {numOfFiles} data files.</p>
+        <div className="header-row flex-container" style={{ 'width' : '1352px'}}>
+          <span className="glyphicon glyphicon-trash flex-item" aria-hidden="false" onClick={this.onDeleteRow}></span>
+          <span className="glyphicon glyphicon-plus-sign flex-item" style ={{   'width' : '23px',
+              'height' : '24px' }} onClick={this.onModalOpen}></span>
+          <span className="glyphicon glyphicon-download-alt flex-item" aria-hidden="false" onClick={this.downloadFiles}></span>
         </div>
-        <span className="glyphicon glyphicon-download-alt" aria-hidden="false" onClick={this.downloadFiles}></span>
         <Table columns={columns}
                data={files}
                noDataText={noDataText}
                pagination={true}
                search={true}
-               deleteRow={true}
+               deleteRow={false}
                onDeleteRow={this.onDeleteRow}
                onRowSelect={this.onSelectRow}
                trClass={this.trClass}
